@@ -6,24 +6,15 @@
         "genre": "Classic"
     },
     {
+        "id": 2,
+        "title": "Germinal",
+        "author": "Victor Hugo",
+        "genre": "Historic"
+    },
+    {
         "id": 3,
-        "title": "Updated Title",
+        "title": "1984",
         "author": "George Orwell",
         "genre": "Dystopian"
-    },
-    {
-        "title": "New Book Title",
-        "author": "New Book Author",
-        "genre": "New Genre"
-    },
-    {
-        "title": "New Book Title",
-        "author": "New Book Author",
-        "genre": "New Genre"
-    },
-    {
-        "title": "New Book Title",
-        "author": "New Book Author",
-        "genre": "New Genre"
     }
 ]

@@ -1,9 +1,29 @@
 version: '3.12'
 
 services:
-  book-crud:
+  book-api:
+    image: book-api
     build: .
     ports:
       - "5000:5000"
     volumes:
       - .:/app
+    networks:
+      - book-api-network
+
+  test-book-api:
+    depends_on:
+      - book-api
+    image: test-book-api
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    volumes:
+      - .:/app
+    networks:
+      - book-api-network
+
+networks:
+  book-api-network:
+    driver: bridge
+    name: book-api-network
