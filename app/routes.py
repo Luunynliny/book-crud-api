@@ -64,11 +64,23 @@ def update_book_field(book_id):
     books = load_books()
     for book in books:
         if book.get("id") == book_id:
+            updated = False
             for key, value in data.items():
                 if key in book:
                     book[key] = value
-            save_books(books)
-            return jsonify(book)
+                    updated = True
+            if updated:
+                save_books(books)
+                return jsonify(book)
+            else:
+                return (
+                    jsonify(
+                        {
+                            "message": f"Field(s) not found in book with ID {book_id}"
+                        }
+                    ),
+                    400,
+                )
     return jsonify({"message": "Book not found"}), 404
 
 
@@ -82,3 +94,33 @@ def delete_book(book_id):
             save_books(books)
             return jsonify({"message": "Book deleted"})
     return jsonify({"message": "Book not found"}), 404
+
+
+@app.route("/reset_books", methods=["POST"])
+def reset_books_route():
+    with open(FILE_PATH, "w") as file:
+        json.dump(
+            [
+                {
+                    "id": 1,
+                    "title": "The Great Gatsby",
+                    "author": "F. Scott Fitzgerald",
+                    "genre": "Classic",
+                },
+                {
+                    "id": 2,
+                    "title": "Germinal",
+                    "author": "Victor Hugo",
+                    "genre": "Historic",
+                },
+                {
+                    "id": 3,
+                    "title": "1984",
+                    "author": "George Orwell",
+                    "genre": "Dystopian",
+                },
+            ],
+            file,
+            indent=4,
+        )
+    return jsonify({"message": "Books reset to initial state"}), 200
