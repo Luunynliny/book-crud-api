@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "genre": "Classic"
+    },
+    {
+        "id": 3,
+        "title": "Updated Title",
+        "author": "George Orwell",
+        "genre": "Dystopian"
+    },
+    {
+        "title": "New Book Title",
+        "author": "New Book Author",
+        "genre": "New Genre"
+    },
+    {
+        "title": "New Book Title",
+        "author": "New Book Author",
+        "genre": "New Genre"
+    },
+    {
+        "title": "New Book Title",
+        "author": "New Book Author",
+        "genre": "New Genre"
+    }
+]
