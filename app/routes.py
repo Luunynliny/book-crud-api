@@ -14,6 +14,7 @@ def load_books():
             books = json.load(file)
     except FileNotFoundError:
         books = []
+
     return books
 
 
@@ -22,7 +23,7 @@ def save_books(books):
         json.dump(books, file, indent=4)
 
 
-# API to get all books
+# Get all books
 @app.route("/books", methods=["GET"])
 def get_books():
     books = load_books()
@@ -47,12 +48,15 @@ def get_book(book_id):
 def add_book():
     data = request.json
     books = load_books()
+
     new_book = {
+        "id": len(books) + 1,
         "title": data["title"],
         "author": data["author"],
         "genre": data["genre"],
     }
     books.append(new_book)
+
     save_books(books)
     return jsonify(new_book), 201
 
@@ -62,25 +66,16 @@ def add_book():
 def update_book_field(book_id):
     data = request.json
     books = load_books()
+
     for book in books:
         if book.get("id") == book_id:
-            updated = False
             for key, value in data.items():
                 if key in book:
                     book[key] = value
-                    updated = True
-            if updated:
-                save_books(books)
-                return jsonify(book)
-            else:
-                return (
-                    jsonify(
-                        {
-                            "message": f"Field(s) not found in book with ID {book_id}"
-                        }
-                    ),
-                    400,
-                )
+
+            save_books(books)
+            return jsonify(book)
+
     return jsonify({"message": "Book not found"}), 404
 
 
@@ -88,14 +83,18 @@ def update_book_field(book_id):
 @app.route("/books/<int:book_id>", methods=["DELETE"])
 def delete_book(book_id):
     books = load_books()
+
     for index, book in enumerate(books):
         if book.get("id") == book_id:
             del books[index]
+
             save_books(books)
             return jsonify({"message": "Book deleted"})
+
     return jsonify({"message": "Book not found"}), 404
 
 
+# Reset books
 @app.route("/reset_books", methods=["POST"])
 def reset_books_route():
     with open(FILE_PATH, "w") as file:
@@ -123,4 +122,5 @@ def reset_books_route():
             file,
             indent=4,
         )
+
     return jsonify({"message": "Books reset to initial state"}), 200
